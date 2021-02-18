@@ -21,7 +21,7 @@ def ObtenerDatosGrupoGoogleCSV(html):
     members = soup.select("div[role='gridcell'] a[href^='mailto:']")
     s = ""
     for m in members:
-        if 'alu' not in m.string and 'fp' not in m.string: 
+        if '@alu' not in m.string and '@fp' not in m.string: 
             continue
         
         nombre = re.sub('@.*','',m.string)
