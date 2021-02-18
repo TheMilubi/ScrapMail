@@ -5,7 +5,6 @@ import time, re
 
 def main():
     driver = webdriver.Chrome()
-    driver.implicitly_wait(2)
     driver.get('https://groups.google.com/u/1/all-groups')
     f = None
     try:
@@ -15,7 +14,7 @@ def main():
     except:
         print('No hay ningun archivo .login con usuario y contraseña')
 
-    time.sleep(2)
+    time.sleep(1)
     dEmail = driver.find_element_by_css_selector('[type="email"]')
     if dEmail:
         dEmail.clear()
@@ -23,14 +22,14 @@ def main():
 
         driver.find_element_by_css_selector('button.VfPpkd-LgbsSe').click()
 
-    time.sleep(2)
+    time.sleep(1)
     dPass = driver.find_element_by_css_selector('[type="password"]')
     if dPass:
         dPass.clear()
         dPass.send_keys(password)
         driver.find_element_by_css_selector('button.VfPpkd-LgbsSe').click()
 
-    time.sleep(6)
+    time.sleep(4)
 
     hipervinculos = driver.find_elements_by_css_selector('a.eRnJIb')
     links = []
