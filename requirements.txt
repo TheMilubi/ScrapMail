@@ -1,2 +1,4 @@
 beautifulsoup4==4.9.3
-soupsieve==2.1; python_version >= '3.0'
+selenium==3.141.0
+soupsieve==2.2; python_version >= '3.0'
+urllib3==1.26.3
