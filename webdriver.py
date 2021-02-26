@@ -30,7 +30,7 @@ def ObtenerDatosGrupoGoogleCSV(html):
     posicion = soup.select('h1.KdPHLc')[0].string
     
     members = soup.select("div[role='gridcell'] a[href^='mailto:']")
-    s = "First Name,Last Name,Email,Position"
+    s = "First Name,Last Name,Email,Position\n"
     for m in members:
         if '@alu' not in m.string and '@fp' not in m.string:
             continue
