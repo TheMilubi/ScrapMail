@@ -4,6 +4,7 @@ import time, re
 
 
 def main():
+    driver = ''
     try:
         driver = webdriver.Firefox()
     except:
