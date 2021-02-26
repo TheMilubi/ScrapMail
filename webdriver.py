@@ -15,14 +15,19 @@ def main():
         except:
             print('No hay driver de chrome en el directorio')
     try:
-        f = open('.login', 'r')
-        usuario = f.readline().replace('\n', '')
-        password = f.readline().replace('\n', '')
-        
+        f = open('.login', 'r')  
     except:
         print('No hay ningun archivo .login con usuario y contraseña')
-
-    login(usuario, password, driver)
+     
+    if f:
+        usuario = f.readline().replace('\n', '')
+        password = f.readline().replace('\n', '')
+    else:
+        print("No hay usuario o contraseña")
+    if usuario and password and driver:
+        login(usuario, password, driver)
+    else:
+        print('No se creó ningún driver, comprueba que tienes un chromedriver o geckodriver en el mismo directorio que este fichero')
 
 
 def ObtenerDatosGrupoGoogleCSV(html):
