@@ -4,16 +4,47 @@ import time, re
 
 
 def main():
-    driver = webdriver.Chrome()
-    driver.get('https://groups.google.com/u/1/all-groups')
-    f = None
+    try:
+        driver = webdriver.Firefox()
+    except:
+        print('No hay driver de firefox en el directorio')
+    if not driver:
+        try:
+            driver = webdriver.Chrome()
+        except:
+            print('No hay driver de chrome en el directorio')
     try:
         f = open('.login', 'r')
         usuario = f.readline().replace('\n', '')
         password = f.readline().replace('\n', '')
+        
     except:
         print('No hay ningun archivo .login con usuario y contraseña')
 
+    login(usuario, password, driver)
+
+
+def ObtenerDatosGrupoGoogleCSV(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    posicion = soup.select('h1.KdPHLc')[0].string
+    
+    members = soup.select("div[role='gridcell'] a[href^='mailto:']")
+    s = ""
+    for m in members:
+        if '@alu' not in m.string and '@fp' not in m.string:
+            continue
+
+        nombre = re.sub('@.*', '', m.string)
+        s += nombre + ',,'+m.string+','+posicion+'\n'
+    print(s)
+    if s:
+        nombreFichero = str(posicion).replace(' ', '').replace('/','-') + '.csv'
+        fs = open(nombreFichero, 'w')
+        fs.write(s)
+    pass
+
+def login(usuario, password, driver):
+    driver.get('https://groups.google.com/u/1/all-groups')
     time.sleep(1)
     dEmail = driver.find_element_by_css_selector('[type="email"]')
     if dEmail:
@@ -42,28 +73,8 @@ def main():
         html = driver.page_source
         ObtenerDatosGrupoGoogleCSV(html)
 
+
     pass
-
-
-def ObtenerDatosGrupoGoogleCSV(html):
-    soup = BeautifulSoup(html, 'html.parser')
-    posicion = soup.select('h1.KdPHLc')[0].string
-    
-    members = soup.select("div[role='gridcell'] a[href^='mailto:']")
-    s = ""
-    for m in members:
-        if '@alu' not in m.string and '@fp' not in m.string:
-            continue
-
-        nombre = re.sub('@.*', '', m.string)
-        s += nombre + ',,'+m.string+','+posicion+'\n'
-    print(s)
-    if s:
-        nombreFichero = str(posicion).replace(' ', '').replace('/','-') + '.csv'
-        fs = open(nombreFichero, 'w')
-        fs.write(s)
-    pass
-
 
 if __name__ == "__main__":
     main()
