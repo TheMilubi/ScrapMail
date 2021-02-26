@@ -14,20 +14,23 @@ def main():
 
 
 def ObtenerDatosGrupoGoogleCSV(html):
-    soup = BeautifulSoup(html,'html.parser')
+    def ObtenerDatosGrupoGoogleCSV(html):
+    soup = BeautifulSoup(html, 'html.parser')
     posicion = soup.select('h1.KdPHLc')[0].string
-    nombreFichero = str(posicion).replace(' ', '') + '.csv'
-    fs = open(nombreFichero, 'w')
+    
     members = soup.select("div[role='gridcell'] a[href^='mailto:']")
-    s = ""
+    s = "First Name,Last Name,Email,Position\n"
     for m in members:
-        if '@alu' not in m.string and '@fp' not in m.string: 
+        if '@alu' not in m.string and '@fp' not in m.string:
             continue
-        
-        nombre = re.sub('@.*','',m.string)
-        s += nombre + ',,'+m.string+','+posicion+'\n'
+
+        nombre = re.sub('@.*', '', m.string)
+        s += nombre + ",," + m.string + ',' + posicion + '\n'
     print(s)
-    fs.write(s)
+    if s != "First Name,Last Name,Email,Position\n":
+        nombreFichero = str(posicion).replace(' ', '').replace('/','-') + '.csv'
+        fs = open(nombreFichero, 'w')
+        fs.write(s)
     pass
 
 if __name__ == "__main__":
