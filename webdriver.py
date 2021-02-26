@@ -36,7 +36,7 @@ def ObtenerDatosGrupoGoogleCSV(html):
             continue
 
         nombre = re.sub('@.*', '', m.string)
-        s += nombre + ',,'+m.string+','+posicion+'\n'
+        s += nombre + ",," + m.string + ',' + posicion + '\n'
     print(s)
     if s:
         nombreFichero = str(posicion).replace(' ', '').replace('/','-') + '.csv'
